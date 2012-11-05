@@ -1286,9 +1286,6 @@ exports.create = function(options, callback) {
 }
 
 exports.start = function(options, callback) {
-  var r = exports.create(options, callback);
-
-  exports.send = r.send;
-  exports.stop = r.destroy;
+  return exports.create(options, callback);
 }
 
