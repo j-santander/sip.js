@@ -1257,8 +1257,23 @@ exports.create = function(options, callback) {
             m.headers.via = [];
 
           m.headers.via.unshift({params: {branch: generateBranch()}});
+
+	  var hop = parseUri(m.uri);
+
+	  if(m.headers.route) {
+	    if(typeof m.headers.route === 'string')
+	      m.headers.route = parsers.route({s: m.headers.route, i:0});
+	    
+	    hop = parseUri(m.headers.route[0].uri);
+	    if(hop.params.lr === undefined ) {
+	      m.headers.route.shift();
+	      m.headers.route.push({uri: rq.uri});
+	      m.uri = hop;
+	    }
+	  }
+
           
-          resolve(parseUri(m.uri), function(address) {
+          resolve(hop, function(address) {
             if(address.length === 0) {
               errorLog(new Error("ACK: couldn't resove" + stringifyUri(m.uri)));
               return;
