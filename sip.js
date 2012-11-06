@@ -301,7 +301,7 @@ function parseUri(s) {
   if(typeof s === 'object')
     return s;
 
-  var re = /^(sips?):(?:([^\s>:@]+)(?::([^\s@>]+))?@)?([\w\-\.]+)(?::(\d+))?((?:;[^\s=\?>;]+(?:=[^\s?\;]+)?)*)(\?([^\s&=>]+=[^\s&=>]+)(&[^\s&=>]+=[^\s&=>]+)*)?$/;
+  var re = /^(sips?):(?:([^\s>:@]+)(?::([^\s@>]+))?@)?([\w\-\.]+)(?::(\d+))?((?:;[^\s=\?>;]+(?:=[^\s?\;]+)?)*)(?:\?(([^\s&=>]+=[^\s&=>]+)(&[^\s&=>]+=[^\s&=>]+)*))?$/;
 
   var r = re.exec(s);
 
@@ -371,6 +371,8 @@ function stringifyParams(params) {
 function stringifyAOR(aor) {
   return (aor.name || '') + ' <' + stringifyUri(aor.uri) + '>'+stringifyParams(aor.params); 
 }
+
+exports.stringifyAOR=stringifyAOR;
 
 function stringifyAuthHeader(a) {
   var s = [];
